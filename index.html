@@ -250,7 +250,7 @@ html[data-theme="dark"] .anim.explainer{--d-surface:#171a27;--d-box:#39415f;--d-
   </section>
 
   <section class="scene" id="x1-s4" data-chip="Job agent">
-    <h3 class="scene-title">An agent finds real jobs and applies for you, using paid credits</h3>
+    <h3 class="scene-title">An agent finds real jobs, applies for you and tracks it all, using paid credits</h3>
     <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
       <g data-actor="you"><g transform="translate(56,400)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">You</text></g></g>
       <g data-actor="sites" data-step="1" data-fx="appear"><g transform="translate(56,160)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M13,38 C5,38 3,28 10,25 C9,16 20,12 25,18 C29,10 41,13 39,23 C46,24 46,38 37,38 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Job sites</text></g></g>
@@ -266,23 +266,27 @@ html[data-theme="dark"] .anim.explainer{--d-surface:#171a27;--d-box:#39415f;--d-
       <path id="x1-s4-p2" data-step="3" data-fx="draw" data-delay="300" pathLength="1" d="M592,184 H804" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="3" data-fx="fade" data-delay="1100" d="M812,184 l-9,-5 v10 z" fill="var(--d-ink)"/>
       <g data-step="3" data-fx="token" data-path="x1-s4-p2" data-dur="1600" data-wait="900"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
       <text data-step="3" data-fx="fade" data-delay="1100" x="700" y="168" text-anchor="middle" font-size="16" fill="var(--d-label)">no humans</text>
-      <circle data-step="4" data-fx="fade" cx="600" cy="424" r="60" fill="none" stroke="var(--d-ink)" stroke-width="2"/>
-      <g data-step="4" data-fx="appear" data-delay="200"><g transform="translate(552,400) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
-      <g data-step="4" data-fx="appear" data-delay="300"><g transform="translate(612,400) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
-      <text data-step="4" data-fx="fade" data-delay="300" x="600" y="340" text-anchor="middle" font-size="16" fill="var(--d-ink)">Your network</text>
-      <path id="x1-s4-p3" data-step="4" data-fx="draw" data-delay="300" pathLength="1" d="M344,212 C420,240 440,424 532,424" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="4" data-fx="fade" data-delay="1100" d="M540,424 l-9,-5 v10 z" fill="var(--d-ink)"/>
-      <g data-step="4" data-fx="token" data-path="x1-s4-p3" data-dur="1600" data-wait="900"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
-      <text data-step="4" data-fx="fade" data-delay="1100" x="340" y="340" text-anchor="middle" font-size="16" fill="var(--d-blue)">outreach mode</text>
-      <text data-step="5" data-fx="fade" x="600" y="512" text-anchor="middle" font-size="16" fill="var(--d-ok)">making connections: free</text>
-      <rect data-step="6" data-fx="appear" x="296" y="236" width="48" height="14" rx="4" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
-      <rect data-step="6" data-fx="fade" data-delay="300" x="299" y="239" width="28" height="8" rx="2" fill="var(--d-blue)"/>
-      <text data-step="6" data-fx="fade" data-delay="400" x="320" y="278" text-anchor="middle" font-size="16" fill="var(--d-ink)">paid credits</text>
-      <rect data-step="6" data-fx="fade" data-delay="700" x="270" y="226" width="100" height="62" rx="10" fill="none" stroke="var(--d-yellow)" stroke-width="2"/>
+      <g data-actor="sheet" data-step="4" data-fx="appear"><g transform="translate(816,330)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="6" width="36" height="36" rx="3" fill="var(--d-surface)"/><path d="M6,16 H42" fill="none"/><path d="M6,26 H42 M6,34 H42 M18,6 V42 M30,6 V42" fill="none" stroke-opacity=".45"/></g><text x="24" y="70" text-anchor="middle" font-size="16" fill="var(--d-ink)">Google Sheet</text></g></g>
+      <path data-step="4" data-fx="draw" data-delay="300" pathLength="1" d="M840,216 V320" stroke="var(--d-ink)" stroke-width="2" fill="none" stroke-dasharray="5 4"/><path data-step="4" data-fx="fade" data-delay="1100" d="M840,328 l-5,-9 h10 z" fill="var(--d-ink)"/>
+      <text data-step="4" data-fx="fade" data-delay="1100" x="828" y="280" text-anchor="end" font-size="16" fill="var(--d-label)">tracks everything</text>
+      <circle data-step="5" data-fx="fade" cx="600" cy="424" r="60" fill="none" stroke="var(--d-ink)" stroke-width="2"/>
+      <g data-step="5" data-fx="appear" data-delay="200"><g transform="translate(552,400) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="5" data-fx="appear" data-delay="300"><g transform="translate(612,400) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <text data-step="5" data-fx="fade" data-delay="300" x="600" y="340" text-anchor="middle" font-size="16" fill="var(--d-ink)">Your network</text>
+      <path id="x1-s4-p3" data-step="5" data-fx="draw" data-delay="300" pathLength="1" d="M344,212 C420,240 440,424 532,424" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="5" data-fx="fade" data-delay="1100" d="M540,424 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <g data-step="5" data-fx="token" data-path="x1-s4-p3" data-dur="1600" data-wait="900"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <text data-step="5" data-fx="fade" data-delay="1100" x="340" y="340" text-anchor="middle" font-size="16" fill="var(--d-blue)">outreach mode</text>
+      <text data-step="6" data-fx="fade" x="600" y="512" text-anchor="middle" font-size="16" fill="var(--d-ok)">making connections: free</text>
+      <rect data-step="7" data-fx="appear" x="296" y="236" width="48" height="14" rx="4" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
+      <rect data-step="7" data-fx="fade" data-delay="300" x="299" y="239" width="28" height="8" rx="2" fill="var(--d-blue)"/>
+      <text data-step="7" data-fx="fade" data-delay="400" x="320" y="278" text-anchor="middle" font-size="16" fill="var(--d-ink)">paid credits</text>
+      <rect data-step="7" data-fx="fade" data-delay="700" x="270" y="226" width="100" height="62" rx="10" fill="none" stroke="var(--d-yellow)" stroke-width="2"/>
     </svg>
     <ol class="anim-say">
       <li data-tp="TP5">The job agent is a program that works for you. It scrapes job posts from job sites.</li>
       <li data-tp="TP5">It checks each post against the company's own careers page. A post that does not match is dropped.</li>
       <li data-tp="TP5">The job agent applies to the real posts for you. No humans are involved.</li>
+      <li data-tp="TP14">The job agent creates a Google Sheet. It tracks every job post, check and application there.</li>
       <li data-tp="TP6">When applications get no answer, outreach mode starts. The job agent messages people in your network for you.</li>
       <li data-tp="TP7">Connections and meetups are free, because nobody pays to make connections.</li>
       <li data-tp="TP7">The job agent runs on paid credits. This is how the app makes money.</li>
@@ -387,14 +391,14 @@ html[data-theme="dark"] .anim.explainer{--d-surface:#171a27;--d-box:#39415f;--d-
     <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
       <text data-step="1" data-fx="appear" x="100" y="140" text-anchor="start" font-size="26" fill="var(--d-ink)">1. Friends you make at work fade away.</text>
       <text data-step="2" data-fx="appear" x="100" y="216" text-anchor="start" font-size="26" fill="var(--d-ink)">2. Profiles, circles and meetups keep them close.</text>
-      <text data-step="3" data-fx="appear" x="100" y="292" text-anchor="start" font-size="26" fill="var(--d-ink)">3. The job agent applies, paid by credits.</text>
+      <text data-step="3" data-fx="appear" x="100" y="292" text-anchor="start" font-size="26" fill="var(--d-ink)">3. The job agent applies and tracks it all.</text>
       <text data-step="4" data-fx="appear" x="100" y="368" text-anchor="start" font-size="26" fill="var(--d-ink)">4. Voice tutor and merchant onboarding agent.</text>
       <text data-step="5" data-fx="appear" x="100" y="444" text-anchor="start" font-size="26" fill="var(--d-ink)">5. An event app, and a farmland app for far land.</text>
     </svg>
     <ol class="anim-say">
       <li data-tp="TP1">Today, friends you make at work fade away.</li>
       <li data-tp="TP2 TP4">Open or closed profiles, two circles and random meetups keep those friends close.</li>
-      <li data-tp="TP5 TP7">The job agent finds real jobs and applies. Connections are free, and the job agent costs credits.</li>
+      <li data-tp="TP5 TP14 TP7">The job agent finds real jobs, applies and tracks it all in a Google Sheet. Connections are free, and the job agent costs credits.</li>
       <li data-tp="TP8 TP9">A voice tutor teaches any subject. An onboarding agent sets up merchants by voice.</li>
       <li data-tp="TP12 TP13">One event app organizes your whole event. A farmland app looks after land for owners who live far away.</li>
     </ol>
@@ -408,6 +412,7 @@ html[data-theme="dark"] .anim.explainer{--d-surface:#171a27;--d-box:#39415f;--d-
       <li data-tp-def="TP3" data-priority="should">Each connection joins a private circle or a professional circle. <a href="#x1-s2">Scene 2</a></li>
       <li data-tp-def="TP4" data-priority="must">The app pairs users with the same interest at random and sets up a meetup. <a href="#x1-s3">Scene 3</a></li>
       <li data-tp-def="TP5" data-priority="must">The job agent scrapes job posts, checks them against careers pages and applies. <a href="#x1-s4">Scene 4</a></li>
+      <li data-tp-def="TP14" data-priority="must">The job agent creates a Google Sheet and tracks every post, check and application in it. <a href="#x1-s4">Scene 4</a></li>
       <li data-tp-def="TP6" data-priority="should">Outreach mode messages people in your network. <a href="#x1-s4">Scene 4</a></li>
       <li data-tp-def="TP7" data-priority="must">Connections are free. The job agent runs on paid credits. <a href="#x1-s4">Scene 4</a></li>
       <li data-tp-def="TP8" data-priority="must">A voice tutor teaches any subject by talking. <a href="#x1-s5">Scene 5</a></li>
@@ -434,7 +439,7 @@ html[data-theme="dark"] .anim.explainer{--d-surface:#171a27;--d-box:#39415f;--d-
       <button type="button" class="vote-btn" data-key="network" aria-label="Upvote Career-friends network"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
     </li>
     <li class="vote-card">
-      <div><strong>Job agent</strong><p>Finds real job posts, applies for you, and runs network outreach. Paid with credits.</p></div>
+      <div><strong>Job agent</strong><p>Finds real job posts, applies for you, tracks everything in a Google Sheet, and runs network outreach. Paid with credits.</p></div>
       <button type="button" class="vote-btn" data-key="jobagent" aria-label="Upvote Job agent"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
     </li>
     <li class="vote-card">
