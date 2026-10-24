@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Explainer: Career network and agent ideas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Standalone explainer page: the DR look (tokens copied from augury-dr-doc/assets/dr.css), light and dark. */
+:root{
+  --bg:#f7f8f6; --surface:#FFFFFF; --border:#E4E2DB; --rule:#DAD8D0;
+  --ink:#191A1B; --body:#3C3F42; --muted:#8A8D88;
+  --green:#1C6A51; --green-tint:#DCEAE0;
+  --code-bg:#E7E5DF; --block-bg:#ECEAE4;
+  --orange:#B4530E; --navy:#1E2A6B;
+  --maxc:1000px;
+}
+html[data-theme="dark"]{
+  --bg:#0e1018; --surface:#171a27; --border:#2b3350; --rule:#2b3350;
+  --ink:#e9ecf5; --body:#c3cae0; --muted:#9aa3bd;
+  --green:#4ADE80; --green-tint:#123324;
+  --code-bg:#232838; --block-bg:#20263c;
+  --orange:#F0A868; --navy:#B9C6FF;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--body);font:16px/1.6 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+html[data-theme="dark"] body{background:radial-gradient(1100px 560px at 80% -10%,#1a1f38 0,rgba(26,31,56,0) 60%),var(--bg);}
+.page{max-width:var(--maxc);margin:0 auto;padding-block:56px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+h1{font-size:40px;line-height:1.1;letter-spacing:-.02em;font-weight:800;color:var(--ink);margin:0 0 24px;text-wrap:balance;}
+a{color:var(--green);}
+strong{color:var(--ink);font-weight:700;}
+code{font-family:'IBM Plex Mono',monospace;font-size:.9em;background:var(--code-bg);color:var(--ink);padding:1px 5px;border-radius:4px;}
+.anim .covers{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule);}
+.anim .covers h3{font-size:17px;color:var(--ink);margin:0 0 8px;}
+.anim .covers h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:16px 0 8px;}
+.anim .covers ul{margin:0;padding-left:20px;}
+.anim .covers p{color:var(--muted);font-size:14px;margin:12px 0 0;}
+.theme-toggle{position:fixed;top:18px;right:22px;z-index:60;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.02em;
+  padding:8px 13px;border-radius:8px;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:1px solid var(--rule);
+  box-shadow:0 1px 4px rgba(0,0,0,.10);transition:border-color .15s;}
+.theme-toggle:hover{border-color:var(--green);}
+.theme-toggle:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+@media (max-width:700px){
+  h1{font-size:30px;}
+  .theme-toggle{position:static;display:block;width:fit-content;margin:10px 16px 0 auto;box-shadow:none;}
+}
+@media print{.theme-toggle{display:none !important;}}
+
+/* ===== shared animation player (augury-doc-explainer: ANIMATION.md, SCENES.md) ===== */
+/* Scoped to .anim, so it does nothing on a page without a player.
+   --a-* are the player's page colours: the host page's tokens when it has them (DR pages), DR values otherwise. */
+.anim{--d-blue:#2E6FD8;--d-yellow:#B98A00;
+  --a-ink:var(--ink,#191A1B);--a-body:var(--body,#3C3F42);--a-muted:var(--muted,#8A8D88);
+  --a-surface:var(--surface,#FFFFFF);--a-border:var(--border,#E4E2DB);--a-green:var(--green,#1C6A51);}
+.anim.explainer{--d-surface:#FFFFFF;--d-box:#E4E2DB;--d-ink:#191A1B;--d-muted:#C9C7BF;--d-label:#55585B;--d-ok:#1C6A51;--d-warn:#B4530E;}
+html[data-theme="dark"] .anim{--d-blue:#7FB0FF;--d-yellow:#F2CF5B;
+  --a-ink:var(--ink,#e9ecf5);--a-body:var(--body,#c3cae0);--a-muted:var(--muted,#9aa3bd);
+  --a-surface:var(--surface,#171a27);--a-border:var(--border,#2b3350);--a-green:var(--green,#4ADE80);}
+html[data-theme="dark"] .anim.explainer{--d-surface:#171a27;--d-box:#39415f;--d-ink:#e9ecf5;--d-muted:#39415f;--d-label:#9aa3bd;--d-ok:#7ee0cf;--d-warn:#F0A868;}
+@media (prefers-color-scheme:dark){
+  html:not([data-theme]) .anim{--d-blue:#7FB0FF;--d-yellow:#F2CF5B;
+    --a-ink:var(--ink,#e9ecf5);--a-body:var(--body,#c3cae0);--a-muted:var(--muted,#9aa3bd);
+    --a-surface:var(--surface,#171a27);--a-border:var(--border,#2b3350);--a-green:var(--green,#4ADE80);}
+  html:not([data-theme]) .anim.explainer{--d-surface:#171a27;--d-box:#39415f;--d-ink:#e9ecf5;--d-muted:#39415f;--d-label:#9aa3bd;--d-ok:#7ee0cf;--d-warn:#F0A868;}
+}
+
+/* step effects: only active once anim.js adds .js, so a page without JS shows the full diagram */
+.anim.js [data-step]{transition:opacity .6s ease var(--delay,0s),transform .7s cubic-bezier(.2,.7,.2,1) var(--delay,0s),stroke-dashoffset 1s ease var(--delay,0s);transform-box:fill-box;}
+.anim.js [data-fx="appear"]:not(.on){opacity:0;transform:translateY(10px);}
+.anim.js [data-fx="fade"]:not(.on){opacity:0;}
+.anim.js [data-fx="draw"]{stroke-dasharray:1;}
+.anim.js [data-fx="draw"]:not(.on){stroke-dashoffset:1;opacity:0;}
+.anim.js [data-fx="move"].on{transform:translate(var(--dx,0px),var(--dy,0px));}
+.anim [data-fx="token"]:not(.cur){opacity:0 !important;transition:none;}
+.anim [data-fx="token"].done{opacity:0 !important;transition:none;}
+.anim.js.focus [data-step].on.past{opacity:.3;}
+
+/* ambient motion inside icons: runs once its step is reached */
+.anim .spin,.anim .spin-rev{transform-box:fill-box;transform-origin:center;animation:anim-spin 6s linear infinite paused;}
+.anim .spin-rev{animation-name:anim-spin-rev;animation-duration:4s;}
+.anim .flow{animation:anim-flow 2.4s linear infinite paused;}
+.anim .flow.f1{animation-delay:-.4s;} .anim .flow.f2{animation-delay:-1.2s;} .anim .flow.f3{animation-delay:-2s;}
+.anim .blink{animation:anim-blink 1.4s steps(2,jump-none) infinite paused;}
+.anim.js .on .spin,.anim.js .on .spin-rev,.anim.js .on .flow,.anim.js .on .blink{animation-play-state:running;}
+@keyframes anim-spin{to{transform:rotate(360deg);}}
+@keyframes anim-spin-rev{to{transform:rotate(-360deg);}}
+@keyframes anim-flow{0%{transform:translateX(0);opacity:0;}15%,85%{opacity:1;}100%{transform:translateX(var(--len,86px));opacity:0;}}
+@keyframes anim-blink{0%{opacity:1;}100%{opacity:.25;}}
+
+/* captions: a numbered list without JS, one line at a time with JS */
+.anim .anim-say{margin:14px 4px 0;padding-left:22px;color:var(--a-body);font-size:16px;line-height:1.5;}
+.anim.js .anim-say{list-style:none;padding:0;min-height:max(3em,var(--say-h,0px));}
+.anim.js .anim-say li[hidden]{display:none;}
+.anim.js.at0 .anim-say::before{content:"Press Play, or use the arrows to step.";color:var(--a-muted);}
+
+/* explainer: scenes share one grid cell, so the player keeps one height */
+.anim.explainer{background:var(--a-surface);border:1px solid var(--a-border);border-radius:12px;padding:20px 18px 14px;margin:0 0 16px;}
+.anim.explainer:focus-visible{outline:2px solid var(--a-green);outline-offset:2px;}
+.anim .scene-title{margin:0 0 10px;font-size:19px;font-weight:700;line-height:1.3;color:var(--a-ink);text-wrap:balance;}
+.anim .scene svg{display:block;width:100%;height:auto;}
+.anim.explainer.js{display:grid;grid-template-columns:minmax(0,1fr);}
+.anim.explainer.js .scene{grid-row:1;grid-column:1;visibility:hidden;opacity:0;transition:opacity .4s ease;}
+.anim.explainer.js .scene.now{visibility:visible;opacity:1;}
+.anim.explainer.js .scene.leaving{visibility:visible;opacity:0;}
+.anim.explainer.read .scene{grid-row:auto;visibility:visible;opacity:1;margin-bottom:28px;}
+.anim.explainer.read .anim-say{list-style:decimal;padding-left:22px;min-height:0;}
+.anim.explainer.read .anim-say::before{content:none;}
+.anim.explainer.read .anim-bar button:not(.rd),.anim.explainer.read .anim-time{display:none;}
+.anim.explainer.read .anim-bar,.anim.explainer.read .anim-chapters{order:-1;margin:0 4px 16px;}
+.anim:not(.js) .scene [data-until]{display:none;}
+/* kept actors: the arriving copy glides from the old place, the old copy hides at once */
+.anim.js .scene [data-actor].kept{opacity:1 !important;}
+.anim.js .scene [data-actor].gone{opacity:0 !important;transition:none;}
+
+/* controls (built by anim.js) */
+.anim-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:12px 4px 0;}
+.anim-bar button{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;font:600 13px/1 'Inter',sans-serif;color:var(--a-ink);background:var(--a-surface);border:1px solid var(--a-border);border-radius:7px;padding:0 12px;cursor:pointer;}
+.anim-bar button.ico{width:32px;padding:0;}
+.anim-bar button.play{min-width:92px;}
+.anim-bar button svg{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.anim-bar button:hover{border-color:var(--a-green);}
+.anim-bar button:focus-visible{outline:2px solid var(--a-green);outline-offset:2px;}
+.anim-bar button.pri{background:var(--a-green);border-color:var(--a-green);color:var(--a-surface);}
+.anim-bar button:disabled{opacity:.4;cursor:default;}
+.anim-bar button{position:relative;}
+.anim-bar button[data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);padding:4px 8px;border-radius:5px;background:var(--a-ink);color:var(--a-surface);font:500 11px/1.2 'Inter',sans-serif;white-space:nowrap;pointer-events:none;opacity:0;visibility:hidden;z-index:5;}
+@media (hover:hover){.anim-bar button[data-tip]:hover::after{opacity:1;visibility:visible;}}
+.anim-bar button[data-tip]:focus-visible::after{opacity:1;visibility:visible;}
+.anim.playing .anim-bar button.nx:not(:disabled){animation:anim-nudge 1.6s ease-in-out infinite;}
+@keyframes anim-nudge{0%,100%{transform:scale(1);border-color:var(--a-border);}50%{transform:scale(1.08);border-color:var(--a-green);}}
+.anim-bar .anim-n{margin-left:auto;font:12px 'IBM Plex Mono',monospace;color:var(--a-muted);}
+
+/* explainer timeline and chapter bar (built by anim.js) */
+.anim-time{display:flex;align-items:center;gap:3px;margin:10px 4px 0;}
+.anim-time .seg{flex:var(--w,1) 1 0;min-width:6px;height:6px;border-radius:3px;background:var(--a-border);overflow:hidden;position:relative;}
+.anim-time .seg::after{content:"";position:absolute;inset:0;background:var(--a-green);transform-origin:left center;transform:scaleX(var(--fill,0));transition:transform .3s ease;}
+.anim-clock{flex:none;margin-left:8px;font:12px 'IBM Plex Mono',monospace;color:var(--a-muted);}
+.anim-chapters{display:flex;flex-wrap:wrap;gap:6px;margin:10px 4px 0;}
+.anim-chapters button{font:500 12px/1 'Inter',sans-serif;padding:7px 10px;border-radius:999px;border:1px solid var(--a-border);background:var(--a-surface);color:var(--a-body);cursor:pointer;}
+.anim-chapters button.active{border-color:var(--a-green);color:var(--a-green);font-weight:600;}
+.anim-chapters button:focus-visible{outline:2px solid var(--a-green);outline-offset:2px;}
+
+@media (prefers-reduced-motion:reduce){
+  .anim [data-step],.anim .scene,.anim-time .seg::after{transition:none !important;}
+  .anim .spin,.anim .spin-rev,.anim .flow,.anim .blink{animation-play-state:paused !important;}
+  .anim.playing .anim-bar button.nx{animation:none !important;}
+}
+@media print{
+  .anim.playing .anim-bar button.nx{animation:none !important;}
+  .anim-bar{display:none;}
+  .anim-time,.anim-chapters{display:none;}
+  .anim .spin,.anim .spin-rev,.anim .flow,.anim .blink{animation-play-state:paused !important;}
+  .anim [data-step]{opacity:1 !important;stroke-dashoffset:0 !important;transition:none !important;}
+  .anim [data-fx="appear"]{transform:none !important;}
+  .anim [data-fx="token"]{opacity:0 !important;}
+  .anim .scene [data-until]{display:none;}
+  .anim.explainer.js .scene{grid-row:auto;visibility:visible !important;opacity:1 !important;}
+  .anim .anim-say li{display:list-item !important;}
+  .anim.js .anim-say{list-style:decimal;padding-left:22px;}
+  .anim.js.at0 .anim-say::before{content:none;}
+}
+
+</style>
+</head><body>
+<script>(function(){try{var t=localStorage.getItem('dr-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<button id="themeToggle" class="theme-toggle" type="button">🌙 Dark</button>
+<main class="page">
+<h1>Explainer: Career network and agent ideas</h1>
+<div class="anim explainer focus" data-anim id="x1" data-length="deep">
+  <section class="scene opening" id="x1-s1" data-chip="Today">
+    <h3 class="scene-title">Friends you make at work fade away</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="you" data-step="1" data-fx="appear"><g transform="translate(136,220)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">You</text></g></g>
+      <g data-actor="interviewer" data-step="1" data-fx="appear" data-delay="250"><g transform="translate(456,220)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Interviewer</text></g></g>
+      <rect data-step="1" data-fx="appear" data-delay="500" x="330" y="110" width="300" height="44" rx="8" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
+      <text data-step="1" data-fx="fade" data-delay="700" x="480" y="138" text-anchor="middle" font-size="16" fill="var(--d-ink)">talks openly about the team</text>
+      <path id="x1-s1-p1" data-step="2" data-fx="draw" data-delay="300" pathLength="1" d="M520,244 H748" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="2" data-fx="fade" data-delay="1100" d="M756,244 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <text data-step="2" data-fx="fade" data-delay="1100" x="634" y="228" text-anchor="middle" font-size="16" fill="var(--d-ink)">let's connect</text>
+      <rect data-step="2" data-fx="appear" data-delay="1100" x="760" y="214" width="160" height="60" rx="8" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
+      <text data-step="2" data-fx="fade" data-delay="1300" x="840" y="250" text-anchor="middle" font-size="16" fill="var(--d-ink)">LinkedIn</text>
+      <text data-step="2" data-fx="fade" data-delay="1700" x="840" y="300" text-anchor="middle" font-size="16" fill="var(--d-warn)">no contact after</text>
+      <g data-step="3" data-fx="appear"><g transform="translate(296,400)" opacity=".45"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="3" data-fx="appear" data-delay="200"><g transform="translate(456,400)" opacity=".45"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="3" data-fx="appear" data-delay="400"><g transform="translate(616,400)" opacity=".45"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <text data-step="3" data-fx="fade" data-delay="600" x="480" y="384" text-anchor="middle" font-size="16" fill="var(--d-warn)">old colleagues drift away</text>
+      <rect data-step="3" data-fx="fade" data-delay="900" x="270" y="360" width="420" height="104" rx="14" fill="none" stroke="var(--d-yellow)" stroke-width="2"/>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP1">In one interview, the interviewer stopped the formal talk. He spoke openly about how hard the team was.</li>
+      <li data-tp="TP1">He said: let's connect on LinkedIn. After that, he was only a LinkedIn connection.</li>
+      <li data-tp="TP1">The same happens when you leave a company. Old colleagues drift away, because staying in touch takes effort.</li>
+    </ol>
+  </section>
+
+  <section class="scene" id="x1-s2" data-chip="Circles">
+    <h3 class="scene-title">Choose who can see you, and which circle each friend joins</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="you"><g transform="translate(56,230)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">You</text></g></g>
+      <g data-actor="profile" data-step="1" data-fx="appear"><g transform="translate(216,80)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="14" width="40" height="20" rx="10" fill="var(--d-surface)"/><circle cx="34" cy="24" r="6" fill="var(--d-ink)" stroke="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Profile</text></g></g>
+      <text data-step="1" data-fx="fade" data-delay="300" x="300" y="92" text-anchor="start" font-size="16" fill="var(--d-ink)">Open profile: anyone can see you.</text>
+      <text data-step="1" data-fx="fade" data-delay="600" x="300" y="122" text-anchor="start" font-size="16" fill="var(--d-ink)">Closed profile: friends only.</text>
+      <circle data-step="2" data-fx="fade" cx="440" cy="370" r="90" fill="none" stroke="var(--d-ink)" stroke-width="2"/>
+      <text data-step="2" data-fx="fade" data-delay="200" x="440" y="226" text-anchor="middle" font-size="16" fill="var(--d-ink)">Private circle</text>
+      <g data-step="2" data-fx="appear" data-delay="500"><g transform="translate(392,346)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="2" data-fx="appear" data-delay="700"><g transform="translate(440,346)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <circle data-step="2" data-fx="fade" data-delay="300" cx="720" cy="370" r="90" fill="none" stroke="var(--d-ink)" stroke-width="2"/>
+      <text data-step="2" data-fx="fade" data-delay="500" x="720" y="226" text-anchor="middle" font-size="16" fill="var(--d-ink)">Professional circle</text>
+      <g data-step="2" data-fx="appear" data-delay="900"><g transform="translate(696,346)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <path data-step="2" data-fx="draw" data-delay="200" pathLength="1" d="M112,262 C200,300 300,350 344,362" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="2" data-fx="fade" data-delay="1000" d="M350,364 l-10,-2 l5,-8 z" fill="var(--d-ink)"/>
+      <path data-step="2" data-fx="draw" data-delay="600" pathLength="1" d="M96,290 C200,530 560,530 650,444" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="2" data-fx="fade" data-delay="1400" d="M656,438 l-11,1 l5,9 z" fill="var(--d-ink)"/>
+      <circle data-step="3" data-fx="fade" cx="720" cy="370" r="130" fill="none" stroke="var(--d-yellow)" stroke-width="2" stroke-dasharray="6 5"/>
+      <g data-step="3" data-fx="appear" data-delay="400"><g transform="translate(840,300) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="3" data-fx="appear" data-delay="600"><g transform="translate(840,420) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <text data-step="3" data-fx="fade" data-delay="800" x="720" y="528" text-anchor="middle" font-size="16" fill="var(--d-ok)">opened to more people</text>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP2">Each user picks an open profile that anyone can see, or a closed profile for friends only.</li>
+      <li data-tp="TP3">Each connection joins your private circle for friends, or your professional circle for work.</li>
+      <li data-tp="TP3">When you look for a job, you open your professional circle to more people.</li>
+    </ol>
+  </section>
+
+  <section class="scene" id="x1-s3" data-chip="Meetups" data-flow="free">
+    <h3 class="scene-title">Meet strangers who like the same things</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="you"><g transform="translate(56,230)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">You</text></g></g>
+      <rect data-step="1" data-fx="appear" x="150" y="236" width="200" height="40" rx="8" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
+      <text data-step="1" data-fx="fade" data-delay="200" x="250" y="262" text-anchor="middle" font-size="16" fill="var(--d-ink)">Interest: databases</text>
+      <text data-step="2" data-fx="fade" x="704" y="104" text-anchor="middle" font-size="16" fill="var(--d-ink)">Users who like databases</text>
+      <g data-step="2" data-fx="appear"><g transform="translate(560,130)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="2" data-fx="appear" data-delay="150"><g transform="translate(680,130)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="2" data-fx="appear" data-delay="300"><g transform="translate(800,130)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="2" data-fx="appear" data-delay="450"><g transform="translate(560,260)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="2" data-fx="appear" data-delay="600"><g transform="translate(680,260)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="2" data-fx="appear" data-delay="750"><g transform="translate(800,260)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <circle data-step="2" data-fx="fade" data-delay="1200" cx="704" cy="284" r="36" fill="none" stroke="var(--d-yellow)" stroke-width="2"/>
+      <text data-step="2" data-fx="fade" data-delay="1400" x="704" y="342" text-anchor="middle" font-size="16" fill="var(--d-label)">picked at random</text>
+      <g data-actor="meetup" data-step="3" data-fx="appear"><g transform="translate(380,400)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="5" y="9" width="38" height="34" rx="4" fill="var(--d-surface)"/><path d="M5,18 H43" fill="none"/><path d="M15,5 V12 M33,5 V12" fill="none"/><path d="M12,26 H18 M21,26 H27 M30,26 H36 M12,34 H18 M21,34 H27" fill="none" stroke-opacity=".45"/></g><text x="24" y="70" text-anchor="middle" font-size="16" fill="var(--d-ink)">Meetup</text></g></g>
+      <path data-step="3" data-fx="draw" data-delay="300" pathLength="1" d="M100,290 C140,420 260,430 370,424" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="3" data-fx="fade" data-delay="1100" d="M378,424 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <path data-step="3" data-fx="draw" data-delay="300" pathLength="1" d="M704,354 C690,430 560,430 440,424" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="3" data-fx="fade" data-delay="1100" d="M432,424 l9,-5 v10 z" fill="var(--d-ink)"/>
+      <text data-step="3" data-fx="fade" data-delay="1200" x="700" y="470" text-anchor="middle" font-size="16" fill="var(--d-label)">like Donut, across companies</text>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP4">You add your interests to your profile. In this example, the interest is databases.</li>
+      <li data-tp="TP4">The app takes all users who like databases. It picks one of them at random.</li>
+      <li data-tp="TP4">The app sets up a meetup for you two. Slack's Donut app does this inside one company, but this works across companies.</li>
+    </ol>
+  </section>
+
+  <section class="scene" id="x1-s4" data-chip="Job agent">
+    <h3 class="scene-title">An agent finds real jobs and applies for you, using paid credits</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="you"><g transform="translate(56,400)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">You</text></g></g>
+      <g data-actor="sites" data-step="1" data-fx="appear"><g transform="translate(56,160)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M13,38 C5,38 3,28 10,25 C9,16 20,12 25,18 C29,10 41,13 39,23 C46,24 46,38 37,38 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Job sites</text></g></g>
+      <g data-actor="agent" data-step="1" data-fx="appear" data-delay="250"><g transform="translate(296,160)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path class="spin" d="M19.0,16.0 L22.0,12.3 L24.8,13.0 L25.5,17.7 L27.4,19.0 L32.0,18.1 L33.7,20.5 L31.2,24.6 L31.8,26.7 L36.0,29.0 L35.7,32.0 L31.2,33.4 L30.3,35.5 L32.0,39.9 L29.9,42.0 L25.5,40.3 L23.4,41.2 L22.0,45.7 L19.0,46.0 L16.7,41.8 L14.6,41.2 L10.5,43.7 L8.1,42.0 L9.0,37.4 L7.7,35.5 L3.0,34.8 L2.3,32.0 L6.0,29.0 L6.2,26.7 L3.0,23.2 L4.3,20.5 L9.0,20.6 L10.6,19.0 L10.5,14.3 L13.2,13.0 L16.7,16.2 Z" fill="var(--d-surface)"/><circle cx="19" cy="29" r="4.5" fill="none"/><path class="spin-rev" d="M37.0,3.8 L39.6,1.3 L42.0,2.3 L42.1,5.9 L43.2,7.4 L46.7,8.4 L47.0,11.0 L44.0,12.9 L43.2,14.6 L44.1,18.1 L42.0,19.7 L38.9,18.0 L37.0,18.2 L34.4,20.7 L32.0,19.7 L31.9,16.1 L30.8,14.6 L27.3,13.6 L27.0,11.0 L30.0,9.1 L30.8,7.4 L29.9,3.9 L32.0,2.3 L35.1,4.0 Z" fill="var(--d-surface)"/><circle cx="37" cy="11" r="2.8" fill="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Job agent</text></g></g>
+      <path id="x1-s4-p1" data-step="1" data-fx="draw" data-delay="300" pathLength="1" d="M112,184 H284" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="1" data-fx="fade" data-delay="1100" d="M292,184 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <g data-step="1" data-fx="token" data-path="x1-s4-p1" data-dur="1600" data-wait="900"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <g data-actor="careers" data-step="2" data-fx="appear"><g transform="translate(536,160)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="2" y="6" width="44" height="36" rx="4" fill="var(--d-surface)"/><path d="M2,15 H46" fill="none"/><circle cx="8" cy="10.5" r="1.4" fill="var(--d-ink)" stroke="none"/><circle cx="13" cy="10.5" r="1.4" fill="var(--d-ink)" stroke="none"/><path d="M9,24 H32 M9,30 H38 M9,36 H26" stroke="var(--d-ink)" stroke-opacity=".45" fill="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Careers page</text></g></g>
+      <path data-step="2" data-fx="draw" data-delay="300" pathLength="1" d="M352,184 H524" stroke="var(--d-ink)" stroke-width="2" fill="none" stroke-dasharray="5 4"/><path data-step="2" data-fx="fade" data-delay="1100" d="M532,184 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <text data-step="2" data-fx="fade" data-delay="1100" x="440" y="168" text-anchor="middle" font-size="16" fill="var(--d-ink)">check</text>
+      <text data-step="2" data-fx="fade" data-delay="1300" x="560" y="240" text-anchor="middle" font-size="16" fill="var(--d-ok)">match: keep</text>
+      <text data-step="2" data-fx="fade" data-delay="1600" x="560" y="264" text-anchor="middle" font-size="16" fill="var(--d-warn)">no match: drop</text>
+      <g data-actor="apply" data-step="3" data-fx="appear"><g transform="translate(816,160)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="11" width="40" height="28" rx="3" fill="var(--d-surface)"/><path d="M5,13 L24,28 L43,13" fill="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Application</text></g></g>
+      <path id="x1-s4-p2" data-step="3" data-fx="draw" data-delay="300" pathLength="1" d="M592,184 H804" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="3" data-fx="fade" data-delay="1100" d="M812,184 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <g data-step="3" data-fx="token" data-path="x1-s4-p2" data-dur="1600" data-wait="900"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <text data-step="3" data-fx="fade" data-delay="1100" x="700" y="168" text-anchor="middle" font-size="16" fill="var(--d-label)">no humans</text>
+      <circle data-step="4" data-fx="fade" cx="600" cy="424" r="60" fill="none" stroke="var(--d-ink)" stroke-width="2"/>
+      <g data-step="4" data-fx="appear" data-delay="200"><g transform="translate(552,400) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <g data-step="4" data-fx="appear" data-delay="300"><g transform="translate(612,400) scale(0.75)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g></g></g>
+      <text data-step="4" data-fx="fade" data-delay="300" x="600" y="340" text-anchor="middle" font-size="16" fill="var(--d-ink)">Your network</text>
+      <path id="x1-s4-p3" data-step="4" data-fx="draw" data-delay="300" pathLength="1" d="M344,212 C420,240 440,424 532,424" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="4" data-fx="fade" data-delay="1100" d="M540,424 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <g data-step="4" data-fx="token" data-path="x1-s4-p3" data-dur="1600" data-wait="900"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <text data-step="4" data-fx="fade" data-delay="1100" x="340" y="340" text-anchor="middle" font-size="16" fill="var(--d-blue)">outreach mode</text>
+      <text data-step="5" data-fx="fade" x="600" y="512" text-anchor="middle" font-size="16" fill="var(--d-ok)">making connections: free</text>
+      <rect data-step="6" data-fx="appear" x="296" y="236" width="48" height="14" rx="4" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
+      <rect data-step="6" data-fx="fade" data-delay="300" x="299" y="239" width="28" height="8" rx="2" fill="var(--d-blue)"/>
+      <text data-step="6" data-fx="fade" data-delay="400" x="320" y="278" text-anchor="middle" font-size="16" fill="var(--d-ink)">paid credits</text>
+      <rect data-step="6" data-fx="fade" data-delay="700" x="270" y="226" width="100" height="62" rx="10" fill="none" stroke="var(--d-yellow)" stroke-width="2"/>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP5">The job agent is a program that works for you. It scrapes job posts from job sites.</li>
+      <li data-tp="TP5">It checks each post against the company's own careers page. A post that does not match is dropped.</li>
+      <li data-tp="TP5">The job agent applies to the real posts for you. No humans are involved.</li>
+      <li data-tp="TP6">When applications get no answer, outreach mode starts. The job agent messages people in your network for you.</li>
+      <li data-tp="TP7">Connections and meetups are free, because nobody pays to make connections.</li>
+      <li data-tp="TP7">The job agent runs on paid credits. This is how the app makes money.</li>
+    </ol>
+  </section>
+
+  <section class="scene" id="x1-s5" data-chip="Voice tutor">
+    <h3 class="scene-title">A voice tutor teaches any subject</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="learner" data-step="1" data-fx="appear"><g transform="translate(216,230)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">You</text></g></g>
+      <g data-actor="tutor" data-step="1" data-fx="appear" data-delay="250"><g transform="translate(696,230)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M6,8 H42 V32 H22 L13,41 V32 H6 Z" fill="var(--d-surface)"/><path d="M24,13 L26,19 L32,20 L26,22 L24,28 L22,22 L16,20 L22,19 Z" fill="var(--d-ink)" stroke="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Voice tutor</text></g></g>
+      <path id="x1-s5-p1" data-step="2" data-fx="draw" data-delay="300" pathLength="1" d="M272,240 H684" stroke="var(--d-blue)" stroke-width="2" fill="none"/><path data-step="2" data-fx="fade" data-delay="1100" d="M692,240 l-9,-5 v10 z" fill="var(--d-blue)"/>
+      <g data-step="2" data-fx="token" data-path="x1-s5-p1" data-dur="1600" data-wait="900"><circle r="6" fill="var(--d-blue)"/></g>
+      <text data-step="2" data-fx="fade" data-delay="1100" x="480" y="224" text-anchor="middle" font-size="16" fill="var(--d-blue)">you ask out loud</text>
+      <path data-step="2" data-fx="appear" data-delay="1600" d="M720,286 V330 H240 V292" stroke="var(--d-ok)" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+      <path data-step="2" data-fx="fade" data-delay="2000" d="M240,284 l-5,9 h10 z" fill="var(--d-ok)"/>
+      <text data-step="2" data-fx="fade" data-delay="2000" x="480" y="356" text-anchor="middle" font-size="16" fill="var(--d-ok)">the tutor answers out loud</text>
+      <rect data-step="3" data-fx="appear" x="580" y="420" width="280" height="44" rx="8" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
+      <text data-step="3" data-fx="fade" data-delay="200" x="720" y="448" text-anchor="middle" font-size="16" fill="var(--d-ink)">Any subject: you choose</text>
+      <rect data-step="3" data-fx="fade" data-delay="500" x="568" y="408" width="304" height="68" rx="12" fill="none" stroke="var(--d-yellow)" stroke-width="2"/>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP8">Second idea: a voice tutor. It is an AI that teaches you by talking.</li>
+      <li data-tp="TP8">You ask a question out loud. The voice tutor answers out loud.</li>
+      <li data-tp="TP8">It works for any subject. You choose what to learn.</li>
+    </ol>
+  </section>
+
+  <section class="scene" id="x1-s6" data-chip="Merchants">
+    <h3 class="scene-title">An onboarding agent sets up a merchant by voice</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="merchant" data-step="1" data-fx="appear"><g transform="translate(136,230)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="20" width="32" height="24" rx="2" fill="var(--d-surface)"/><path d="M4,20 L9,8 H39 L44,20 Z" fill="var(--d-surface)"/><path d="M20,44 V32 H28 V44" fill="none"/><path d="M14,8 L12,20 M24,8 V20 M34,8 L36,20" fill="none" stroke-opacity=".45"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Merchant</text></g></g>
+      <g data-actor="onboard" data-step="1" data-fx="appear" data-delay="250"><g transform="translate(456,230)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M6,8 H42 V32 H22 L13,41 V32 H6 Z" fill="var(--d-surface)"/><path d="M24,13 L26,19 L32,20 L26,22 L24,28 L22,22 L16,20 L22,19 Z" fill="var(--d-ink)" stroke="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Onboarding agent</text></g></g>
+      <path data-step="1" data-fx="draw" data-delay="500" pathLength="1" d="M192,254 H444" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="1" data-fx="fade" data-delay="1300" d="M452,254 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <text data-step="1" data-fx="fade" data-delay="1300" x="160" y="320" text-anchor="middle" font-size="16" fill="var(--d-label)">takes payments</text>
+      <text data-step="2" data-fx="fade" x="480" y="320" text-anchor="middle" font-size="16" fill="var(--d-blue)">talks by voice</text>
+      <text data-step="2" data-fx="fade" data-delay="300" x="480" y="346" text-anchor="middle" font-size="16" fill="var(--d-label)">voice from ElevenLabs</text>
+      <g data-actor="pin" data-step="3" data-fx="appear"><g transform="translate(776,230)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M15,22 V15 C15,4 33,4 33,15 V22" fill="none"/><rect x="9" y="22" width="30" height="22" rx="4" fill="var(--d-surface)"/><path d="M24,30 V36" fill="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Merchant connect PIN</text></g></g>
+      <path id="x1-s6-p1" data-step="3" data-fx="draw" data-delay="300" pathLength="1" d="M512,254 H764" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="3" data-fx="fade" data-delay="1100" d="M772,254 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <g data-step="3" data-fx="token" data-path="x1-s6-p1" data-dur="1600" data-wait="900"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <text data-step="3" data-fx="fade" data-delay="1400" x="800" y="320" text-anchor="middle" font-size="16" fill="var(--d-ok)">created</text>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP9">Third idea: an onboarding agent for merchants. A merchant is a shop or a business that takes payments.</li>
+      <li data-tp="TP9">The onboarding agent talks to the merchant. Its voice comes from ElevenLabs, a voice AI service.</li>
+      <li data-tp="TP9">The onboarding agent helps the merchant create a merchant connect PIN.</li>
+    </ol>
+  </section>
+
+  <section class="scene" id="x1-s7" data-chip="Events" data-flow="free">
+    <h3 class="scene-title">One event app organizes your whole event</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="planner" data-step="1" data-fx="appear"><g transform="translate(56,236)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">You</text></g></g>
+      <g data-actor="eventapp" data-step="1" data-fx="appear" data-delay="250"><g transform="translate(376,236)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="13" y="2" width="22" height="44" rx="4" fill="var(--d-surface)"/><path d="M21,7 H27 M17,14 H31 M17,20 H31 M17,26 H26" stroke="var(--d-ink)" stroke-opacity=".45" fill="none"/><circle cx="24" cy="40" r="1.6" fill="var(--d-ink)" stroke="none"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Event app</text></g></g>
+      <path data-step="1" data-fx="draw" data-delay="500" pathLength="1" d="M112,260 H364" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="1" data-fx="fade" data-delay="1300" d="M372,260 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <text data-step="1" data-fx="fade" data-delay="1300" x="238" y="244" text-anchor="middle" font-size="16" fill="var(--d-ink)">plan my event</text>
+      <g data-actor="app1" data-step="2" data-fx="appear"><g transform="translate(776,110)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M13,38 C5,38 3,28 10,25 C9,16 20,12 25,18 C29,10 41,13 39,23 C46,24 46,38 37,38 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Snabbit</text></g></g>
+      <path id="x1-s7-p1" data-step="2" data-fx="draw" data-delay="200" pathLength="1" d="M432,260 C600,260 640,136 764,136" stroke="var(--d-ink)" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+      <g data-step="3" data-fx="token" data-path="x1-s7-p1" data-dur="1600" data-wait="0"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <text data-step="3" data-fx="fade" data-delay="1800" x="852" y="142" text-anchor="start" font-size="16" fill="var(--d-ok)">done</text>
+      <g data-actor="app2" data-step="2" data-fx="appear" data-delay="300"><g transform="translate(776,260)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M13,38 C5,38 3,28 10,25 C9,16 20,12 25,18 C29,10 41,13 39,23 C46,24 46,38 37,38 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Other app</text></g></g>
+      <path id="x1-s7-p2" data-step="2" data-fx="draw" data-delay="500" pathLength="1" d="M432,260 C600,260 640,286 764,286" stroke="var(--d-ink)" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+      <g data-step="3" data-fx="token" data-path="x1-s7-p2" data-dur="1600" data-wait="200"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <text data-step="3" data-fx="fade" data-delay="2000" x="852" y="292" text-anchor="start" font-size="16" fill="var(--d-ok)">done</text>
+      <g data-actor="app3" data-step="2" data-fx="appear" data-delay="600"><g transform="translate(776,410)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M13,38 C5,38 3,28 10,25 C9,16 20,12 25,18 C29,10 41,13 39,23 C46,24 46,38 37,38 Z" fill="var(--d-surface)"/></g><text x="24" y="-14" text-anchor="middle" font-size="16" fill="var(--d-ink)">Other app</text></g></g>
+      <path id="x1-s7-p3" data-step="2" data-fx="draw" data-delay="800" pathLength="1" d="M432,260 C600,260 640,436 764,436" stroke="var(--d-ink)" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+      <g data-step="3" data-fx="token" data-path="x1-s7-p3" data-dur="1600" data-wait="400"><g stroke="var(--d-blue)" stroke-width="1.6" stroke-linejoin="round"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="var(--d-surface)"/><path d="M-3.5,-4 H3.5 M-3.5,0 H3.5 M-3.5,4 H1" fill="none"/></g></g>
+      <text data-step="3" data-fx="fade" data-delay="2200" x="852" y="442" text-anchor="start" font-size="16" fill="var(--d-ok)">done</text>
+      <text data-step="3" data-fx="fade" data-delay="2400" x="400" y="360" text-anchor="middle" font-size="16" fill="var(--d-ok)">organized end to end</text>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP12">Fourth idea: one event app that organizes an event for you, from start to end.</li>
+      <li data-tp="TP12">The event app connects on its own to other apps, such as Snabbit.</li>
+      <li data-tp="TP12">It uses those apps to organize the whole event. You do not open each app yourself.</li>
+    </ol>
+  </section>
+
+  <section class="scene" id="x1-s8" data-chip="Farmland">
+    <h3 class="scene-title">A farmland app looks after land for owners who live far away</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <g data-actor="owner" data-step="1" data-fx="appear"><g transform="translate(56,200)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"><circle cx="24" cy="15" r="8" fill="var(--d-surface)"/><path d="M8,44 C8,32 15,27 24,27 C33,27 40,32 40,44 Z" fill="var(--d-surface)"/></g><text x="24" y="70" text-anchor="middle" font-size="16" fill="var(--d-ink)">Landowner</text></g></g>
+      <g data-actor="land" data-step="1" data-fx="appear" data-delay="250"><g transform="translate(856,200)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M3,44 L10,26 H38 L45,44 Z" fill="var(--d-surface)"/><path d="M15,44 L18,26 M24,44 V26 M33,44 L30,26" fill="none" stroke-opacity=".45"/><path d="M24,24 V12 M24,16 C24,10 30,8 33,9 C32,14 28,16 24,16 M24,19 C24,14 19,12 16,13 C17,17 20,19 24,19" fill="none"/></g><text x="24" y="70" text-anchor="middle" font-size="16" fill="var(--d-ink)">Farmland</text></g></g>
+      <text data-step="1" data-fx="fade" data-delay="600" x="300" y="214" text-anchor="middle" font-size="16" fill="var(--d-warn)">lives far away</text>
+      <g data-actor="farmapp" data-step="2" data-fx="appear"><g transform="translate(456,340)"><g stroke="var(--d-ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="13" y="2" width="22" height="44" rx="4" fill="var(--d-surface)"/><path d="M21,7 H27 M17,14 H31 M17,20 H31 M17,26 H26" stroke="var(--d-ink)" stroke-opacity=".45" fill="none"/><circle cx="24" cy="40" r="1.6" fill="var(--d-ink)" stroke="none"/></g><text x="24" y="70" text-anchor="middle" font-size="16" fill="var(--d-ink)">Farmland app</text></g></g>
+      <path data-step="2" data-fx="draw" data-delay="300" pathLength="1" d="M112,226 C220,300 300,364 444,364" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="2" data-fx="fade" data-delay="1100" d="M452,364 l-9,-5 v10 z" fill="var(--d-ink)"/>
+      <path data-step="2" data-fx="draw" data-delay="300" pathLength="1" d="M512,364 C660,364 760,300 838,232" stroke="var(--d-ink)" stroke-width="2" fill="none"/><path data-step="2" data-fx="fade" data-delay="1100" d="M845,226 l-10,1 l5,8 z" fill="var(--d-ink)"/>
+      <text data-step="2" data-fx="fade" data-delay="1300" x="760" y="380" text-anchor="middle" font-size="16" fill="var(--d-ink)">leases to a farmer</text>
+      <text data-step="3" data-fx="fade" x="480" y="440" text-anchor="middle" font-size="16" fill="var(--d-blue)">tracks and maintains</text>
+      <path data-step="3" data-fx="appear" data-delay="600" d="M480,330 V150 H80 V190" stroke="var(--d-ok)" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+      <path data-step="3" data-fx="fade" data-delay="1000" d="M80,198 l-5,-9 h10 z" fill="var(--d-ok)"/>
+      <text data-step="3" data-fx="fade" data-delay="1000" x="480" y="136" text-anchor="middle" font-size="16" fill="var(--d-ok)">updates to the owner</text>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP13">Fifth idea: a farmland app for landowners who live far away from their land.</li>
+      <li data-tp="TP13">The farmland app leases the land to a farmer for the owner.</li>
+      <li data-tp="TP13">It tracks the land and keeps it maintained. The owner gets updates from far away.</li>
+    </ol>
+  </section>
+
+  <section class="scene recap" id="x1-s9" data-chip="Recap">
+    <h3 class="scene-title">One network keeps your work friends, and four more apps do tasks for you</h3>
+    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <text data-step="1" data-fx="appear" x="100" y="140" text-anchor="start" font-size="26" fill="var(--d-ink)">1. Friends you make at work fade away.</text>
+      <text data-step="2" data-fx="appear" x="100" y="216" text-anchor="start" font-size="26" fill="var(--d-ink)">2. Profiles, circles and meetups keep them close.</text>
+      <text data-step="3" data-fx="appear" x="100" y="292" text-anchor="start" font-size="26" fill="var(--d-ink)">3. The job agent applies, paid by credits.</text>
+      <text data-step="4" data-fx="appear" x="100" y="368" text-anchor="start" font-size="26" fill="var(--d-ink)">4. Voice tutor and merchant onboarding agent.</text>
+      <text data-step="5" data-fx="appear" x="100" y="444" text-anchor="start" font-size="26" fill="var(--d-ink)">5. An event app, and a farmland app for far land.</text>
+    </svg>
+    <ol class="anim-say">
+      <li data-tp="TP1">Today, friends you make at work fade away.</li>
+      <li data-tp="TP2 TP4">Open or closed profiles, two circles and random meetups keep those friends close.</li>
+      <li data-tp="TP5 TP7">The job agent finds real jobs and applies. Connections are free, and the job agent costs credits.</li>
+      <li data-tp="TP8 TP9">A voice tutor teaches any subject. An onboarding agent sets up merchants by voice.</li>
+      <li data-tp="TP12 TP13">One event app organizes your whole event. A farmland app looks after land for owners who live far away.</li>
+    </ol>
+  </section>
+
+  <aside class="covers" id="x1-covers">
+    <h3>What this covers</h3>
+    <ul>
+      <li data-tp-def="TP1" data-priority="must">Friends you make at work fade away after you leave. <a href="#x1-s1">Scene 1</a></li>
+      <li data-tp-def="TP2" data-priority="must">Each user picks an open profile or a closed profile. <a href="#x1-s2">Scene 2</a></li>
+      <li data-tp-def="TP3" data-priority="should">Each connection joins a private circle or a professional circle. <a href="#x1-s2">Scene 2</a></li>
+      <li data-tp-def="TP4" data-priority="must">The app pairs users with the same interest at random and sets up a meetup. <a href="#x1-s3">Scene 3</a></li>
+      <li data-tp-def="TP5" data-priority="must">The job agent scrapes job posts, checks them against careers pages and applies. <a href="#x1-s4">Scene 4</a></li>
+      <li data-tp-def="TP6" data-priority="should">Outreach mode messages people in your network. <a href="#x1-s4">Scene 4</a></li>
+      <li data-tp-def="TP7" data-priority="must">Connections are free. The job agent runs on paid credits. <a href="#x1-s4">Scene 4</a></li>
+      <li data-tp-def="TP8" data-priority="must">A voice tutor teaches any subject by talking. <a href="#x1-s5">Scene 5</a></li>
+      <li data-tp-def="TP9" data-priority="must">An onboarding agent helps a merchant create a merchant connect PIN by voice. <a href="#x1-s6">Scene 6</a></li>
+      <li data-tp-def="TP12" data-priority="must">One event app connects to apps such as Snabbit and organizes a whole event. <a href="#x1-s7">Scene 7</a></li>
+      <li data-tp-def="TP13" data-priority="must">A farmland app leases, tracks and maintains land for owners who live far away. <a href="#x1-s8">Scene 8</a></li>
+    </ul>
+    <h4>Left out</h4>
+    <ul>
+      <li data-tp-def="TP10" data-priority="skip">A voice agent that returns missed calls. The recording ends in the middle of this idea.</li>
+      <li data-tp-def="TP11" data-priority="skip">How the network differs from LinkedIn and Donut. The call asked this but did not answer it.</li>
+    </ul>
+    <p>Source: Glass recording s60, 24 Oct 2026, and the author's follow-up notes on 24 Oct 2026.</p>
+  </aside>
+</div>
+
+
+<section class="votes" id="votes" aria-labelledby="votes-h">
+  <h2 id="votes-h">Vote for the ideas you like</h2>
+  <p class="vote-note">Upvote as many ideas as you want. You get one vote per idea in this browser.</p>
+  <ul class="vote-list">
+    <li class="vote-card">
+      <div><strong>Career-friends network</strong><p>Open or closed profiles, private and professional circles, random meetups by interest.</p></div>
+      <button type="button" class="vote-btn" data-key="network" aria-label="Upvote Career-friends network"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
+    </li>
+    <li class="vote-card">
+      <div><strong>Job agent</strong><p>Finds real job posts, applies for you, and runs network outreach. Paid with credits.</p></div>
+      <button type="button" class="vote-btn" data-key="jobagent" aria-label="Upvote Job agent"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
+    </li>
+    <li class="vote-card">
+      <div><strong>Voice tutor</strong><p>An AI that teaches any subject by talking.</p></div>
+      <button type="button" class="vote-btn" data-key="tutor" aria-label="Upvote Voice tutor"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
+    </li>
+    <li class="vote-card">
+      <div><strong>Merchant onboarding agent</strong><p>A voice agent that helps a merchant create a merchant connect PIN.</p></div>
+      <button type="button" class="vote-btn" data-key="merchant" aria-label="Upvote Merchant onboarding agent"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
+    </li>
+    <li class="vote-card">
+      <div><strong>Event app</strong><p>Connects to apps such as Snabbit and organizes a whole event for you.</p></div>
+      <button type="button" class="vote-btn" data-key="events" aria-label="Upvote Event app"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
+    </li>
+    <li class="vote-card">
+      <div><strong>Farmland app</strong><p>Leases, tracks and maintains land for owners who live far away.</p></div>
+      <button type="button" class="vote-btn" data-key="farmland" aria-label="Upvote Farmland app"><span aria-hidden="true">&#9650;</span> <span class="vote-n">&ndash;</span></button>
+    </li>
+  </ul>
+  <p class="vote-status" role="status"></p>
+</section>
+<style>
+.votes{margin-top:40px;padding-top:24px;border-top:1px solid var(--rule);}
+.votes h2{font-size:24px;color:var(--ink);margin:0 0 4px;}
+.vote-note,.vote-status{color:var(--muted);font-size:14px;margin:0 0 16px;}
+.vote-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));}
+.vote-card{display:flex;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+.vote-card p{margin:4px 0 0;font-size:14px;line-height:1.45;}
+.vote-btn{flex:none;min-width:72px;min-height:44px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--ink);font:600 15px/1 inherit;font-family:inherit;cursor:pointer;}
+.vote-btn:hover:not(:disabled){border-color:var(--green);color:var(--green);}
+.vote-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+.vote-btn.voted{background:var(--green-tint);border-color:var(--green);color:var(--green);cursor:default;}
+</style>
+<script>
+(function () {
+  var API = 'https://abacus.jasoncameron.dev', NS = 'arvind-ideas-x1-7k2q';
+  var status = document.querySelector('.vote-status');
+  function voted(k) { try { return localStorage.getItem('vote:' + NS + ':' + k) === '1'; } catch (e) { return false; } }
+  function remember(k) { try { localStorage.setItem('vote:' + NS + ':' + k, '1'); } catch (e) {} }
+  function show(btn, n) { btn.querySelector('.vote-n').textContent = n; }
+  document.querySelectorAll('.vote-btn').forEach(function (btn) {
+    var k = btn.dataset.key;
+    if (voted(k)) { btn.classList.add('voted'); btn.disabled = true; }
+    fetch(API + '/get/' + NS + '/' + k)
+      .then(function (r) { return r.ok ? r.json() : { value: 0 }; })
+      .then(function (d) { show(btn, d.value || 0); })
+      .catch(function () { show(btn, '?'); status.textContent = 'Vote counts could not load. Try again later.'; });
+    btn.addEventListener('click', function () {
+      if (voted(k)) return;
+      btn.disabled = true;
+      fetch(API + '/hit/' + NS + '/' + k)
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) { remember(k); btn.classList.add('voted'); show(btn, d.value); status.textContent = 'Thanks, your vote is counted.'; })
+        .catch(function () { btn.disabled = false; status.textContent = 'Your vote did not go through. Try again.'; });
+    });
+  });
+})();
+</script>
+</main>
+<script>
+/* Standalone explainer page: light and dark toggle, remembered per viewer under the same key as DR pages. */
+(function () {
+  var btn = document.getElementById('themeToggle');
+  if (!btn) { return; }
+  var root = document.documentElement;
+  function set(t) {
+    root.setAttribute('data-theme', t);
+    btn.textContent = t === 'dark' ? '☀ Light' : '🌙 Dark';
+    try { localStorage.setItem('dr-theme', t); } catch (e) {}
+  }
+  set(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  btn.addEventListener('click', function () { set(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
+})();
+
+/* Shared animation player: animated diagram cards and explainers (augury-doc-explainer: ANIMATION.md, SCENES.md).
+   A card is a player with one scene. An explainer is a player whose scenes are <section class="scene"> elements.
+   Inert when the page has no [data-anim] player.
+   No SMIL: the checkers forbid animate and set elements, so tokens move with requestAnimationFrame.
+   No inline styles in the body: data-delay, data-dx, data-dy and data-len become CSS variables here. */
+(function () {
+  var players = document.querySelectorAll('[data-anim]');
+  if (!players.length) { return; }
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NS = 'http://www.w3.org/2000/svg';
+  var ICONS = { back: 'M15 6l-6 6 6 6', next: 'M9 6l6 6-6 6', again: 'M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v5h-5',
+                play: 'M8 5.5v13l10-6.5z', pause: 'M9 6v12M15 6v12', rewind: 'M18 6l-8 6 8 6M6 6v12',
+                prev: 'M17 6l-6 6 6 6M7 6v12', skip: 'M7 6l6 6-6 6M17 6v12', read: 'M5 6h14M5 12h14M5 18h9' };
+  var GLIDE = 800, FADE = 400, START = 600;
+  /* One player animates at a time. registry holds every player, queue holds cards that came into view while another played. */
+  var registry = [], queue = [];
+  function stopOthers(me) { registry.forEach(function (o) { if (o !== me) { o.halt(); } }); }
+  function drain() {
+    if (registry.some(function (o) { return o.playing(); })) { return; }
+    while (queue.length) {
+      var o = queue.shift();
+      if (o.ready()) { o.begin(); return; }
+    }
+  }
+  function num(v, d) { var n = parseFloat(v); return isFinite(n) ? n : d; }
+  function each(list, fn) { Array.prototype.forEach.call(list, fn); }
+  function icon(name) {
+    var s = document.createElementNS(NS, 'svg'), p = document.createElementNS(NS, 'path');
+    s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true');
+    p.setAttribute('d', ICONS[name]); s.appendChild(p); return s;
+  }
+  function button(name, aria, tip, label) {
+    var b = document.createElement('button'); b.type = 'button';
+    b.setAttribute('aria-label', aria); b.setAttribute('data-tip', tip); b.appendChild(icon(name));
+    if (label) { b.appendChild(document.createTextNode(label)); } else { b.className = 'ico'; }
+    return b;
+  }
+  /* A step stays long enough to read its caption: about 150 words a minute, plus time to watch the change. */
+  function holdOf(li) {
+    if (!li) { return 3600; }
+    if (li.hasAttribute('data-hold')) { return num(li.getAttribute('data-hold'), 3600); }
+    var words = (li.textContent.match(/\S+/g) || []).length;
+    return Math.max(3600, 1200 + 400 * words);
+  }
+  function until(el) { return el.hasAttribute('data-until') ? num(el.getAttribute('data-until'), Infinity) : Infinity; }
+  function clock(ms) { var s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function chipText(el) {
+    var t = el.getAttribute('data-chip');
+    if (t) { return t; }
+    var h = el.querySelector('.scene-title'), s = h ? h.textContent.replace(/\s+/g, ' ').trim() : '';
+    return s.length > 28 ? s.slice(0, 27).replace(/\s+\S*$/, '') + '…' : s;
+  }
+
+  each(players, function (card) {
+    var multi = card.querySelector('.scene') !== null;
+    var scenes = Array.prototype.map.call(multi ? card.querySelectorAll('.scene') : [card], function (el) {
+      var says = el.querySelectorAll('.anim-say li');
+      return { el: el, els: el.querySelectorAll('[data-step]'), says: says, max: says.length };
+    }).filter(function (s) { return s.max > 0; });
+    if (!scenes.length) { return; }
+    var si = 0, at = 0, timer = null, waits = [], frames = [], touched = false, io = null, restScene = -1, reading = false;
+    function cur() { return scenes[si]; }
+    function isEnd() { return si === scenes.length - 1 && at === cur().max; }
+    function hold() { return holdOf(cur().says[at - 1]); }
+
+    /* data attributes -> CSS variables (keeps the body free of inline style) */
+    each(card.querySelectorAll('[data-delay],[data-dx],[data-dy],[data-len]'), function (el) {
+      if (el.hasAttribute('data-delay')) { el.style.setProperty('--delay', num(el.getAttribute('data-delay'), 0) + 'ms'); }
+      if (el.hasAttribute('data-dx')) { el.style.setProperty('--dx', num(el.getAttribute('data-dx'), 0) + 'px'); }
+      if (el.hasAttribute('data-dy')) { el.style.setProperty('--dy', num(el.getAttribute('data-dy'), 0) + 'px'); }
+      if (el.hasAttribute('data-len')) { el.style.setProperty('--len', num(el.getAttribute('data-len'), 86) + 'px'); }
+    });
+
+    var bar = document.createElement('div'); bar.className = 'anim-bar';
+    var rewind = button('rewind', 'Rewind, first step', 'Rewind'), back = button('back', 'Back, previous step', 'Back'),
+        play = button('play', 'Play', 'Play', 'Play'), next = button('next', 'Next step', 'Next'),
+        again = button('again', 'Replay from start', 'Replay'), n = document.createElement('span'),
+        prev = button('prev', 'Previous scene', 'Previous'), skip = button('skip', 'Skip to next scene', 'Skip'),
+        read = button('read', 'Read every scene', 'Read', 'Read');
+    n.className = 'anim-n'; play.classList.add('play'); next.classList.add('nx'); read.classList.add('rd');
+    (multi ? [prev, back, play, next, skip, again, read, n] : [rewind, back, play, next, again, n])
+      .forEach(function (x) { bar.appendChild(x); });
+    var covers = card.querySelector('.covers');
+    card.insertBefore(bar, covers && covers.parentNode === card ? covers : null);
+    each(card.querySelectorAll('.anim-say'), function (ol) { ol.setAttribute('aria-live', 'polite'); });
+    card.classList.add('js');
+
+    /* explainer only: timeline with one segment per scene, and the chapter bar */
+    var chips = [], segs = [], clockEl = null, total = 0;
+    if (multi) {
+      var line = document.createElement('div'), chapters = document.createElement('div');
+      line.className = 'anim-time'; chapters.className = 'anim-chapters';
+      scenes.forEach(function (s, i) {
+        var t = 0;
+        each(s.says, function (li) { t += holdOf(li); });
+        total += t + (i ? GLIDE : 0);
+        var seg = document.createElement('span'); seg.className = 'seg';
+        seg.style.setProperty('--w', String(t)); line.appendChild(seg); segs.push(seg);
+        var c = document.createElement('button'); c.type = 'button';
+        c.textContent = (i + 1) + '. ' + chipText(s.el);
+        c.addEventListener('click', function () { setRead(false); jump(function () { go(i, 1); }); });
+        chapters.appendChild(c); chips.push(c);
+      });
+      clockEl = document.createElement('span'); clockEl.className = 'anim-clock'; line.appendChild(clockEl);
+      card.insertBefore(line, bar.nextSibling);
+      card.insertBefore(chapters, line.nextSibling);
+      card.tabIndex = 0;
+      card.setAttribute('role', 'group');
+      card.setAttribute('aria-label', 'Animated explainer. Space plays or pauses. The arrow keys step.');
+    }
+
+    function pathFor(el) {
+      var id = el.getAttribute('data-path');
+      return id ? card.querySelector('[id="' + id.replace(/["\\]/g, '') + '"]') : null;
+    }
+    function place(el, p) { el.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ',' + p.y.toFixed(1) + ')'); }
+    /* rest: a frame shown at rest (opening, deep link, Read to Watch). A token there sits at the end of its path. */
+    function ride(el, rest) {
+      var path = pathFor(el);
+      if (!path || !path.getTotalLength) { return; }
+      var len = path.getTotalLength(), dur = num(el.getAttribute('data-dur'), 1600);
+      el.classList.remove('done');
+      place(el, path.getPointAtLength(still || rest ? len : 0));
+      if (still || rest) { el.classList.add('done'); return; }
+      waits.push(setTimeout(function () {
+        var t0 = null;
+        function step(t) {
+          if (t0 === null) { t0 = t; }
+          var k = Math.min(1, (t - t0) / dur), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+          place(el, path.getPointAtLength(len * e));
+          if (k < 1) { frames.push(requestAnimationFrame(step)); } else { el.classList.add('done'); }
+        }
+        frames.push(requestAnimationFrame(step));
+      }, num(el.getAttribute('data-wait'), 0)));
+    }
+    function cancel() {
+      waits.forEach(clearTimeout); waits = [];
+      frames.forEach(cancelAnimationFrame); frames = [];
+    }
+    function paint(rest) {
+      var done = 0;
+      scenes.forEach(function (o, i) {
+        each(o.says, function (li, k) { if (i < si || (i === si && k < at - 1)) { done += holdOf(li); } });
+        if (i && i <= si) { done += GLIDE; }
+        segs[i].style.setProperty('--fill', String(i < si ? 1 : i > si ? 0 : at / o.max));
+        chips[i].classList.toggle('active', i === si);
+        if (i === si) { chips[i].setAttribute('aria-current', 'step'); } else { chips[i].removeAttribute('aria-current'); }
+      });
+      clockEl.textContent = clock(rest && si === 0 && at === cur().max ? 0 : done) + ' / ' + clock(total);
+    }
+    function render(rest) {
+      var s = cur();
+      cancel();
+      if (multi) {
+        scenes.forEach(function (o, i) {
+          o.el.classList.toggle('now', i === si);
+          if (o !== s) { each(o.says, function (li) { li.hidden = true; }); }
+        });
+      }
+      each(s.els, function (el) {
+        var st = num(el.getAttribute('data-step'), 0), on = st <= at && at <= until(el);
+        el.classList.toggle('on', on);
+        el.classList.toggle('cur', st === at);
+        el.classList.toggle('past', on && st < at && at < s.max);
+        if (st === at && el.getAttribute('data-fx') === 'token') { ride(el, rest); }
+      });
+      each(s.says, function (li, i) { li.hidden = i !== at - 1; });
+      card.classList.toggle('at0', at === 0);
+      n.textContent = multi ? 'Scene ' + (si + 1) + '/' + scenes.length + ' · ' + at + '/' + s.max : at + ' / ' + s.max;
+      back.disabled = si === 0 && at === 0; next.disabled = isEnd();
+      if (multi) { prev.disabled = si === 0 && at <= 1; skip.disabled = si === scenes.length - 1; paint(rest); }
+      syncRewind();
+      if (isEnd()) { var wasPlaying = timer !== null; stop(); if (wasPlaying) { drain(); } }
+    }
+    function go(i, k, rest) {
+      var from = si;
+      restScene = -1;
+      si = Math.max(0, Math.min(scenes.length - 1, i));
+      at = Math.max(0, Math.min(cur().max, k));
+      if (from !== si && !rest) { change(from); }
+      render(rest);
+    }
+    var gliding = null;
+    function change(from) {
+      var old = scenes[from].el;
+      if (still || reading) { return; }
+      settle();
+      cur().el.classList.remove('leaving');
+      old.classList.add('leaving');
+      setTimeout(function () { old.classList.remove('leaving'); }, FADE);
+      if (from === si - 1) { glide(scenes[from], cur()); }
+    }
+    /* Finish a glide that is still running, so a new scene change starts from a clean state. */
+    function settle() {
+      if (!gliding) { return; }
+      clearTimeout(gliding.timer);
+      gliding.done();
+      gliding = null;
+    }
+    /* Kept actors: an actor with the same data-actor name in the next scene starts on its old box and glides to its new one.
+       All scenes share one viewBox, so both boxes are in the same units. */
+    function glide(from, to) {
+      if (still) { return; }
+      var olds = {};
+      var undo = [];
+      each(from.el.querySelectorAll('[data-actor]'), function (el) { olds[el.getAttribute('data-actor')] = el; });
+      each(to.el.querySelectorAll('[data-actor]'), function (el) {
+        var old = olds[el.getAttribute('data-actor')];
+        if (!old) { return; }
+        var a = old.getBBox(), b = el.getBBox();
+        if (!a.width || !b.width) { return; }
+        var k = a.width / b.width;
+        old.classList.add('gone'); el.classList.add('kept');
+        el.style.transition = 'none'; el.style.transformBox = 'view-box'; el.style.transformOrigin = '0 0';
+        el.style.transform = 'translate(' + (a.x - k * b.x).toFixed(1) + 'px,' + (a.y - k * b.y).toFixed(1) + 'px) scale(' + k.toFixed(3) + ')';
+        el.getBoundingClientRect();
+        el.style.transition = 'transform ' + GLIDE + 'ms cubic-bezier(.2,.7,.2,1)';
+        el.style.transform = '';
+        undo.push(function () {
+          old.classList.remove('gone'); el.classList.remove('kept');
+          el.style.transition = ''; el.style.transformBox = ''; el.style.transformOrigin = '';
+        });
+      });
+      if (!undo.length) { return; }
+      var g = { done: function () { undo.forEach(function (f) { f(); }); } };
+      g.timer = setTimeout(function () { if (gliding === g) { gliding = null; } g.done(); }, GLIDE + 50);
+      gliding = g;
+    }
+    function forward() {
+      if (at < cur().max) { go(si, at + 1); } else if (si < scenes.length - 1) { go(si + 1, 1); }
+    }
+    function backward() {
+      if (at > (si > 0 ? 1 : 0)) { go(si, at - 1); } else if (si > 0) { go(si - 1, scenes[si - 1].max); }
+    }
+    function syncRewind() { rewind.disabled = at === 1 && !timer; }
+    function tick() {
+      var from = si;
+      if (isEnd()) { return; }
+      forward();
+      if (timer) { timer = setTimeout(tick, hold() + (si !== from ? GLIDE : 0)); }
+    }
+    function setPlay(name, label) {
+      while (play.firstChild) { play.removeChild(play.firstChild); }
+      play.appendChild(icon(name)); play.appendChild(document.createTextNode(label));
+      play.setAttribute('aria-label', label); play.setAttribute('data-tip', label);
+    }
+    /* Reserve the tallest caption's height so the player does not jump between one-line and two-line captions.
+       Each caption is unhidden, measured and re-hidden in one synchronous block, so nothing paints in between. */
+    var resizeTimer = null;
+    function reserve() {
+      if (!card.offsetWidth || reading) { return; }
+      var tallest = 0;
+      scenes.forEach(function (s) {
+        var was = [];
+        each(s.says, function (li) { was.push(li.hidden); });
+        each(s.says, function (li) {
+          each(s.says, function (o) { o.hidden = o !== li; });
+          tallest = Math.max(tallest, li.getBoundingClientRect().height);
+        });
+        each(s.says, function (li, i) { li.hidden = was[i]; });
+      });
+      card.style.setProperty('--say-h', Math.ceil(tallest) + 'px');
+    }
+    window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(reserve, 150); });
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(reserve); }
+    function release() { if (io) { io.disconnect(); io = null; } }
+    function touch() { touched = true; release(); }
+    function stopTimer() { clearTimeout(timer); timer = null; }
+    function start() {
+      setRead(false);
+      stopOthers(api); release(); reserve();
+      var qi = queue.indexOf(api); if (qi >= 0) { queue.splice(qi, 1); }
+      if (restScene >= 0) { go(restScene, 0); } else if (isEnd()) { go(0, 0); } else { render(); }
+      stopTimer(); timer = setTimeout(tick, at === 0 ? START : hold());
+      setPlay('pause', 'Pause'); play.classList.add('pri'); again.classList.remove('pri');
+      card.classList.add('playing'); syncRewind();
+    }
+    function stop() {
+      stopTimer(); setPlay('play', 'Play'); card.classList.remove('playing');
+      play.classList.remove('pri'); again.classList.toggle('pri', isEnd()); syncRewind();
+    }
+    function visible() {
+      var r = card.getBoundingClientRect(), h = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
+      return h > 0 && (h >= r.height * 0.5 || h >= innerHeight * 0.5);
+    }
+    function setRead(on) {
+      if (!multi || reading === on) { return; }
+      reading = on;
+      card.classList.toggle('read', on);
+      read.lastChild.nodeValue = on ? 'Watch' : 'Read';
+      read.setAttribute('data-tip', on ? 'Watch' : 'Read');
+      read.setAttribute('aria-label', on ? 'Watch the animation' : 'Read every scene');
+      if (!on) { render(true); return; }
+      stop(); cancel();
+      scenes.forEach(function (s) {
+        each(s.els, function (el) {
+          el.classList.toggle('on', s.max <= until(el));
+          el.classList.remove('cur'); el.classList.remove('past');
+        });
+        each(s.says, function (li) { li.hidden = false; });
+      });
+    }
+    /* Move while keeping the play state: a playing player keeps playing from the new step. */
+    function jump(move) {
+      touch();
+      if (timer) { move(); if (timer) { stopTimer(); timer = setTimeout(tick, hold()); } }
+      else { stop(); move(); }
+    }
+    var api = {
+      playing: function () { return timer !== null; },
+      halt: function () { if (timer !== null) { stop(); cancel(); } },
+      ready: function () { return !multi && !touched && at === 0 && timer === null && visible(); },
+      begin: function () { start(); }
+    };
+    registry.push(api);
+    play.addEventListener('click', function () { touch(); if (timer) { stop(); cancel(); } else { start(); } });
+    rewind.addEventListener('click', function () { touch(); stop(); go(0, 1); if (rewind.disabled) { play.focus(); } });
+    back.addEventListener('click', function () { touch(); stop(); setRead(false); backward(); });
+    next.addEventListener('click', function () { setRead(false); jump(forward); });
+    prev.addEventListener('click', function () { touch(); stop(); setRead(false); go(at > 1 ? si : si - 1, 1); });
+    skip.addEventListener('click', function () { setRead(false); jump(function () { go(si + 1, 1); }); });
+    again.addEventListener('click', function () { touch(); setRead(false); go(0, 0); start(); });
+    read.addEventListener('click', function () { touch(); setRead(!reading); });
+
+    if (multi) {
+      /* Keys work only while focus is inside this player, so a DR page keeps its own scrolling keys. */
+      card.addEventListener('keydown', function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey) { return; }
+        if (e.key === ' ' && e.target.tagName !== 'BUTTON') { e.preventDefault(); play.click(); }
+        else if (e.key === 'ArrowRight' && !next.disabled) { e.preventDefault(); next.click(); }
+        else if (e.key === 'ArrowLeft' && !back.disabled) { e.preventDefault(); back.click(); }
+      });
+    }
+    function fromHash() {
+      var id;
+      try { id = decodeURIComponent(location.hash.slice(1)); } catch (err) { return; }
+      scenes.forEach(function (s, i) {
+        if (id && s.el.id === id) { touch(); stop(); setRead(false); go(i, s.max, true); restScene = i; card.scrollIntoView({ block: 'start' }); }
+      });
+    }
+
+    go(0, multi || still ? scenes[0].max : 0, true); restScene = multi ? 0 : -1;
+    reserve();
+    if (multi) { fromHash(); window.addEventListener('hashchange', fromHash); }
+
+    /* A player in a hidden part tab has no width at load. Measure its captions when it first shows. */
+    if ('IntersectionObserver' in window) {
+      var seen = new IntersectionObserver(function (es) {
+        if (es[es.length - 1].isIntersecting) { reserve(); }
+      });
+      seen.observe(card);
+    }
+
+    /* Cards play once when they come into view. Explainers wait for Play. */
+    if (!still && !multi && 'IntersectionObserver' in window) {
+      io = new IntersectionObserver(function (es) {
+        var e = es[es.length - 1];
+        if (touched || at !== 0) { release(); return; }
+        if (e.isIntersecting && (e.intersectionRatio >= 0.5 || e.intersectionRect.height >= innerHeight * 0.5)) {
+          if (registry.some(function (o) { return o.playing(); })) { if (queue.indexOf(api) < 0) { queue.push(api); } }
+          else { start(); }
+        }
+      }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+      io.observe(card);
+    }
+  });
+})();
+
+</script>
+</body></html>
